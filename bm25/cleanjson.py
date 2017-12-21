@@ -16,5 +16,5 @@ def clean_json(filename):
         for line in contents:
             dic = decode(line) # convert line from JSON to Python dictionary
             json_obj = json.dumps(dic) # convert dic to a string representing a json object
-            outfile.write(json_obj) # write to outfile file
+            outfile.write(json_obj) # write to outfile
             outfile.write("\n")
