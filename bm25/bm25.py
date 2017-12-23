@@ -52,13 +52,13 @@ class BM25():
 		self.tfidf = np.dot(tf,idf)
 		return self.tfidf
 
-	def get_bm25_scores(self, tf, idf):
+	def get_bm25_scores(self, query, tf, idf):
 		'''
 		Constants for BM25 calculation:
 		##############################################################################################################
-		#																											 #
-		#						BM25 = idf * ((k + 1) * tf) / (k * (1.0 - b + b * (L) + tf)                          #
-		#																											 #
+                #													     #              
+		#			BM25 = idf * ((k + 1) * tf) / (k * (1.0 - b + b * (L) + tf)                          #
+	        #                                                                                                            #
 		##############################################################################################################
 		reference: http://opensourceconnections.com/blog/2015/10/16/bm25-the-next-generation-of-lucene-relevation/ '''
 		##############################################################################################################
@@ -74,4 +74,5 @@ class BM25():
 			lis.append(bm25)
 			x = 0
 			bm25 = 0
-		return lis
+		normalizedBM25 = np.array([i/sum(lis) for i in lis])
+		return normalizedBM25

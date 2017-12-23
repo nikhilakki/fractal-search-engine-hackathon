@@ -20,10 +20,10 @@ def cleanJson(filename):
             outfile.write(json_obj) # write to outfile
             outfile.write("\n")
 
-def sentiments(column,neutralThreshold=0.2):
+def sentiments(column):
     lis = []
     analyser = SentimentIntensityAnalyzer()
     for i in column:
         sent = analyser.polarity_scores(i)
         lis.append(sent['compound'])
-    return map(lambda i: 'positive' if neutralThreshold<i<1 else ('negative' if -1<i<-(neutralThreshold) else 'neutral'), lis)
+    return map(lambda i: 'positive' if 0<=i else 'negative', lis)
