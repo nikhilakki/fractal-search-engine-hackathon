@@ -26,4 +26,4 @@ def sentiments(column,neutralThreshold=0.2):
     for i in column:
         sent = analyser.polarity_scores(i)
         lis.append(sent['compound'])
-    return map(lambda i: 'positive' if neutralThreshold<i<1 else ('negative' if -1<i<-(negativeThreshold) else 'neutral'), lis)
+    return map(lambda i: 'positive' if neutralThreshold<i<1 else ('negative' if -1<i<-(neutralThreshold) else 'neutral'), lis)
