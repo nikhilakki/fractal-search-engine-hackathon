@@ -23,7 +23,7 @@ class BM25():
 	    self.n = len(query)
 	    for i in range(len(self.tokenized_documents)):
 	        for token in query:
-	            lis.append(self.tokenized_documents[i].count(token))
+	            lis.append(self.tokenized_documents.iloc[i].count(token))
 	    term_frequencies = np.array(lis).reshape(self.m,self.n)
 	    return term_frequencies
 
