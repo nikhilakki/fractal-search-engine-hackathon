@@ -9,12 +9,12 @@ import math
 
 class BM25():
 
-	def __init__(self, doc_list, tokenized_documents):
+	def __init__(self, tokenized_documents):
 		'''
 		Initialize the variables.
 		'''
-		self.avglen = sum(list((len(i))/len(doc_list) for i in doc_list))
-		self.L = list(len(i)/self.avglen for i in doc_list)
+		self.avglen = sum(list((len(i))/len(tokenized_documents) for i in tokenized_documents))
+		self.L = list(len(i)/self.avglen for i in tokenized_documents)
 		self.tokenized_documents = tokenized_documents
 
 	def get_term_frequencies(self, query):
@@ -56,9 +56,9 @@ class BM25():
 		'''
 		Constants for BM25 calculation:
 		##############################################################################################################
-                #													     #              
-		#			BM25 = idf * ((k + 1) * tf) / (k * (1.0 - b + b * (L) + tf)                          #
-	        #                                                                                                            #
+        #                                                                                                            #
+        #                     BM25 = idf * ((k + 1) * tf) / (k * (1.0 - b + b * (L) + tf)                            #
+        #                                                                                                            #
 		##############################################################################################################
 		reference: http://opensourceconnections.com/blog/2015/10/16/bm25-the-next-generation-of-lucene-relevation/ '''
 		##############################################################################################################
