@@ -5,7 +5,7 @@ __author__ = "Ankan Roy"
 
 """
 initialise.py is used to initialise all the datasets and
-other processing when sever starts
+other processing when sever starts.
 """
 
 # Headers
@@ -14,7 +14,7 @@ from preprocessor import *
 
 # Path to the datasets
 QA_dataset_path = "../../DataSet/qa_Beauty.json"
-review_dataset_path = "./../DataSet/Beauty_5.json"
+review_dataset_path = "../../DataSet/Beauty_5.json"
 
 
 def question_preprocess(QA_filtered_df):
