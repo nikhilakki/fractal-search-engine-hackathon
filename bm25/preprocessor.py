@@ -59,3 +59,11 @@ def stemmer(token_word):
         stemmed_word.append(stem_word)
 
     return stemmed_word
+
+
+def spellcheck(token_word):
+    """
+    Function is used to spell check
+    Input : List of Tokens
+    Output : List of spell check words
+    """
