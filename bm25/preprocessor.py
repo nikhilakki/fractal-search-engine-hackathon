@@ -14,6 +14,7 @@ reviews from the datasets
 from nltk import word_tokenize
 from nltk.corpus import stopwords
 from nltk.stem import SnowballStemmer
+import nltk
 
 
 def tokenise(sentance):
@@ -67,3 +68,17 @@ def spellcheck(token_word):
     Input : List of Tokens
     Output : List of spell check words
     """
+
+
+def find_WH_sent(list_words):
+    """
+    Function used for POS tgging
+    Input : list of words
+    Output : Flag ->  True/False
+    """
+    WH_postag = ['WDT', 'WP', 'WP$', 'WRB']
+
+    postag = nltk.pos_tag(list_words)
+    WH_Question = [True for value in postag if value[1] in WH_postag]
+
+    return WH_Question
