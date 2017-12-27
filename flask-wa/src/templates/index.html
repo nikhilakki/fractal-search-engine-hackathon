@@ -14,6 +14,8 @@
             {{ form.csrf_token }}
             {{ form.query(size=50,placeholder='Your Question') }}
             {{ form.productId(size=10, placeholder='Product ID') }}
+
+
             <button type="submit" value="go">Search</button>
         </form>
 
@@ -21,8 +23,15 @@
             <ol>
                 List of Previous Searches -
 
+                <br>
+                <br>
                 {% for search in searches %}
-                    {{ search }}
+                <li>
+                    {% if form.error %}
+                        {{ form.error }}
+                    {% endif %}
+                    {{ search.Search }} - {{ search.ASIN_ID }}
+                </li>
                 {% endfor %}
             </ol>
         </p>

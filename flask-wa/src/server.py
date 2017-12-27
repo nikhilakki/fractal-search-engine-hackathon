@@ -19,13 +19,12 @@ class SearchForm(FlaskForm):
     productId = StringField('ASIN ID', validators=[DataRequired(), Length(max=32)])
 # Inits
 app   = Flask(__name__) # Flask app init
-mongo = PyMongo(app) # Mongo db object init
 
 # Flask app configurations
 app.config['SECRET_KEY'] = "asdjfkn2k4n2k3n4&FASghDV*^(SAD"
-# app.config['MONGO_PORT'] = 32772
-app.config['MONGO_URI']  = "mongodb://fractal:rohanankanvinodnikhil@localhost:27017/fractal"
-# app.config['MONGO_DBNAME'] = "fractal"
+app.config['MONGO_URI']  = "mongodb://localhost:32774/fractal" # Mongodb URI along with DB name ('fractal')
+
+mongo = PyMongo(app) # Mongo db object init
 
 # Views / Routes
 @app.route('/', methods=('GET', 'POST'))
@@ -43,7 +42,7 @@ def index():
             'ASIN_ID': form.productId.data,
         }
         print(query)
-        db = mongo.db.search_queries.insert_one(jsonify(query))
+        db = mongo.db.search_queries.insert_one(query)
         return redirect('/')
     return render_template('index.html', form=form, searches=searches)
 
