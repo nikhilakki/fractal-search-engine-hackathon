@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Amazon Reviews</title>
+
+</head>
+<body>
+    <div class="container">
+        <h1>Fractal Hiring Challenge</h1>
+        <h2>Ask a question about beauty products!</h2>
+        <form method="POST" action="/">
+            {{ form.csrf_token }}
+            {{ form.query(size=50,placeholder='Your Question') }}
+            {{ form.productId(size=10, placeholder='Product ID') }}
+            <button type="submit" value="go">Search</button>
+        </form>
+
+        <p>
+            <ol>
+                List of Previous Searches -
+
+                {% for search in searches %}
+                    {{ search }}
+                {% endfor %}
+            </ol>
+        </p>
+    </div>
+
+</body>
+</html>
