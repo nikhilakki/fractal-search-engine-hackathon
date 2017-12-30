@@ -27,16 +27,12 @@ def query_processing(user_query):
     """
     query_tokens  = tokenise(user_query)
     stemmed_query = stemmer(query_tokens)
-    stopword_removed_query = stopword_removal(stemmed_query)
-    return stopword_removed_query
-
-def find_WH_queries(stemmed_query):
-    """
-    Funtion used to find the query is having
-    W/H word or not.
-    """
     WH_flag = find_WH_sent(stemmed_query)
-    return WH_flag
+    stopword_removed_query = stopword_removal(stemmed_query)
+
+    return stopword_removed_query,WH_flag
+
+
 
 
 
