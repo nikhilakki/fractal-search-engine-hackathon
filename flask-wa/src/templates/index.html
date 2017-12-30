@@ -28,13 +28,28 @@
                 List of Previous Searches -
 
                 <br>
-                <br>
+
                 {% for search in searches %}
                 <li>
                     {{ search.Search }} - {{ search.ASIN_ID }}
                 </li>
+                <br>
                 {% endfor %}
             </ol>
+        </p>
+    </div>
+
+    <div class="container">
+        <p>
+            {{ result }}
+            <ul>
+                {% for res in result:  %}
+                <li>
+                        {{ res }}
+                </li>
+                {% endfor %}
+            </ul>
+
         </p>
     </div>
 
