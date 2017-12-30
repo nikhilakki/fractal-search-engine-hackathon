@@ -13,8 +13,8 @@ from commonutils import *
 from preprocessor import *
 
 # Path to the datasets
-QA_dataset_path = "../../DataSet/qa_Beauty.json"
-review_dataset_path = "../../DataSet/Beauty_5.json"
+QA_dataset_path = "../../datasets/json/qa_Beauty.json"
+review_dataset_path = "../../datasets/json/Beauty_5.json"
 
 
 def question_preprocess(QA_filtered_df):
