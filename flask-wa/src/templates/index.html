@@ -12,8 +12,12 @@
         <h2>Ask a question about beauty products!</h2>
         <form method="POST" action="/">
             {{ form.csrf_token }}
+            {% if form.error %}
+                {{ form.error }}
+            {% endif %}
             {{ form.query(size=50,placeholder='Your Question') }}
             {{ form.productId(size=10, placeholder='Product ID') }}
+
 
 
             <button type="submit" value="go">Search</button>
@@ -27,9 +31,6 @@
                 <br>
                 {% for search in searches %}
                 <li>
-                    {% if form.error %}
-                        {{ form.error }}
-                    {% endif %}
                     {{ search.Search }} - {{ search.ASIN_ID }}
                 </li>
                 {% endfor %}

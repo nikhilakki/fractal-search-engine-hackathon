@@ -1,4 +1,3 @@
-
 # -*- coding: utf-8 -*-
 __author__    = "Nikhil Akki"
 # MVC Framework
@@ -17,6 +16,7 @@ class SearchForm(FlaskForm):
     '''
     query     = StringField('Query', validators=[DataRequired(), Length(max=120)])
     productId = StringField('ASIN ID', validators=[DataRequired(), Length(max=32)])
+
 # Inits
 app   = Flask(__name__) # Flask app init
 
@@ -49,4 +49,3 @@ def index():
 # Run Flask App
 if __name__ == "__main__":
     app.run(debug=True)
-
