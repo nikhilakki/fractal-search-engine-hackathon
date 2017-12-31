@@ -1,7 +1,7 @@
 
 # -*- coding: utf-8 -*-
 
-__author__ = "Ankan Roy and Nikhil Akki"
+__author__ = "Nikhil Akki"
 
 """
 mongodbcreate.py is used in initialise.py for appending all the procsssed CSVs to
@@ -19,7 +19,7 @@ import json
 
 class MongoDBCreate(object):
 
-    def import_content(filepath, port=32768, dbname='fractal', tablename):
+    def import_content(filepath, port, dbname, tablename):
         """[summary]
 
         [description]
@@ -32,7 +32,7 @@ class MongoDBCreate(object):
             port {number} -- [description] (default: {32768})
             dbname {str} -- [description] (default: {'fractal'})
         """
-        mng_client = pymongo.MongoClient('localhost', 32768)
+        mng_client = pymongo.MongoClient('localhost', port)
         mng_db = mng_client[dbname]
         collection_name = tablename
         db_cm = mng_db[collection_name]

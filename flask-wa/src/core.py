@@ -5,14 +5,14 @@ __author__ = "Rohan Damodar"
 
 from QueryHandler import query_processing
 from relevanceCheck import relevance_finder
-
+import pandas as pd
 
 class Core():
 
     def __init__(self, queryJson, QA_df, RV_df):
         self.queryJson = queryJson
-        self.QA_df = QA_df
-        self.RV_df = RV_df
+        self.QA_df = pd.DataFrame(list(QA_df))
+        self.RV_df = pd.DataFrame(list(RV_df))
 
     def engine(self):
         # Step 1: Extract query from json
@@ -71,43 +71,43 @@ class Core():
 
         if len(newDF) == 0:
             answerJson = {'answer': "Oops! No relevant answer found for your question type!",
-                          'answerSentiment': None, 'qaRelScore': None}
+                          'answer_sentiments': None, 'qaRelScore': None}
         else:
             flag = 'q'
             df = relevance_finder(processed_query, newDF, flag)
             answer = df['answer'].iloc[0]
-            ansSentiment = df['answerSentiment'].iloc[0]
+            ansSentiment = df['answer_sentiments'].iloc[0]
             ansRelScore = df['qa_relevance_score'].iloc[0]
             answerJson = {
-                'answer': answer, 'answerSentiment': ansSentiment, 'qaRelScore': ansRelScore}
+                'answer': answer, 'answer_sentiments': ansSentiment, 'qaRelScore': ansRelScore}
 
         # Create review json
         flag = 'r'
         df = relevance_finder(processed_query, self.RV_df, flag)
         reviews = df['reviewText'].iloc[0:5].to_json(orient='values')
-        revSentiments = df['reviewSentiment'].iloc[0:5].to_json(
+        revSentiments = df['review_sentiments'].iloc[0:5].to_json(
             orient='values')
         revRelScore = df['rv_relevance_score'].iloc[0:5].to_json(
             orient='values')
 
         reviewJson = {'reviews': reviews,
-            'reviewSentiment': revSentiments, 'rvRelScore': revRelScore}
+            'review_sentiments': revSentiments, 'rvRelScore': revRelScore}
 
         return answerJson, reviewJson
 
     def present_only_in_rv(self, processed_query):
         # default
         answerJson = {'answer': None,
-            'answerSentiment': None, 'qaRelScore': None}
+            'answer_sentiments': None, 'qaRelScore': None}
 
         flag = 'r'
         df = relevance_finder(processed_query, self.RV_df, flag)
         reviews = df['reviewText'].iloc[0:5].to_json(orient='values')
-        revSentiments = df['reviewSentiment'].iloc[0:5].to_json(orient='values')
+        revSentiments = df['review_sentiments'].iloc[0:5].to_json(orient='values')
         revRelScore = df['rv_relevance_score'].iloc[0:5].to_json(orient='values')
 
         reviewJson = {'reviews': reviews,
-            'reviewSentiment': revSentiments, 'rvRelScore': revRelScore}
+            'review_sentiments': revSentiments, 'rvRelScore': revRelScore}
 
         return answerJson, reviewJson
 
@@ -120,23 +120,23 @@ class Core():
 
         if len(newDF) == 0:
             answerJson = {'answer': "Oops! No relevant answer found for your question type!", \
-                          'answerSentiment':None, 'qaRelScore':None}
+                          'answer_sentiments':None, 'qaRelScore':None}
         else:
             flag = 'q'
             df = relevance_finder(processed_query, newDF, flag)
             answer = df['answer'].iloc[0]
-            ansSentiment = df['answerSentiment'].iloc[0]
+            ansSentiment = df['answer_sentiments'].iloc[0]
             ansRelScore = df['qa_relevance_score'].iloc[0]
-            answerJson = {'answer' : answer, 'answerSentiment' : ansSentiment, 'qaRelScore' : ansRelScore}
+            answerJson = {'answer' : answer, 'answer_sentiments' : ansSentiment, 'qaRelScore' : ansRelScore}
 
         # default
-        reviewJson = {'reviews' : None, 'reviewSentiment' : None, 'rvRelScore' : None}
+        reviewJson = {'reviews' : None, 'review_sentiments' : None, 'rvRelScore' : None}
 
         return answerJson, reviewJson
 
     def not_present_in_both(self):
-        answerJson = {'answer' : None, 'answerSentiment' : None, 'qaRelScore' : None}
-        reviewJson = {'reviews' : None, 'reviewSentiment' : None, 'rvRelScore' : None}
+        answerJson = {'answer' : None, 'answer_sentiments' : None, 'qaRelScore' : None}
+        reviewJson = {'reviews' : None, 'review_sentiments' : None, 'rvRelScore' : None}
 
         return answerJson, reviewJson
 

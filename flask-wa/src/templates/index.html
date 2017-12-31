@@ -42,11 +42,12 @@
     <div class="container">
         <p>
             <ul>
-                {% for res in result:  %}
+                {{ output }}
+                {# {% for res in result:  %} #}
                 <li>
-                        {{ res.reviewText }}
+                        {# {{ res.reviewText }} #}
                 </li>
-                {% endfor %}
+                {# {% endfor %} #}
             </ul>
 
         </p>

@@ -8,6 +8,7 @@ from flask_pymongo import PyMongo # NoSQL DB lib
 from flask_wtf import FlaskForm # Flask Forms
 from wtforms import StringField # Form fields
 from wtforms.validators import DataRequired, Length # form validation
+from core import Core
 
 # Search Form
 class SearchForm(FlaskForm):
@@ -36,16 +37,19 @@ def index():
     '''
     form     = SearchForm()
     searches = [] # mongo.db.search_queries.find()
-    result   = mongo.db.review.find()
+    result   = mongo.db.reviews.find()
     if form.validate_on_submit():
         query = {
             'Search' : form.query.data,
             'ASIN_ID': form.productId.data,
         }
         print(query)
-        db = mongo.db.search_queries.insert_one(query)
-        result = mongo.db.qa.find({'asin': form.productId.data })
-        return render_template('index.html', form=form, searches=searches, result=result)
+        db    = mongo.db.search_queries.insert_one(query)
+        QA_df = mongo.db.qa.find({'asin': form.productId.data })
+        RV_df = mongo.db.reviews.find({'asin': form.productId.data })
+        co = Core(query, QA_df, RV_df)
+        output = co.engine()
+        return render_template('index.html', form=form, searches=searches, output=output)
     return render_template('index.html', form=form, searches=searches, result=result)
 
 

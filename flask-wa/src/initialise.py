@@ -13,7 +13,7 @@ from commonutils import Commonutils
 from preprocessor import Preprocessor
 import pandas as pd
 from pymongo import MongoClient
-from mongodbcreate.MongoDBCreate import import_content
+from mongodbcreate import MongoDBCreate
 
 # Path to the datasets
 QA_dataset_path = "../../../dataset/json/newFile.json"
@@ -86,5 +86,5 @@ dbname = 'fractal'
 filepath1 = 'QA_csv.csv'
 filepath2 = 'Reviews.csv'
 
-import_content(filepath1, port=port, dbname=dbname, tablename='qa')
-import_content(filepath2, port=port, dbname=dbname, tablename='reviews')
+MongoDBCreate.import_content(filepath1, port=port, dbname=dbname, tablename='qa')
+MongoDBCreate.import_content(filepath2, port=port, dbname=dbname, tablename='reviews')
