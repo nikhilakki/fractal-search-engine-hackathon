@@ -41,11 +41,10 @@
 
     <div class="container">
         <p>
-            {{ result }}
             <ul>
                 {% for res in result:  %}
                 <li>
-                        {{ res }}
+                        {{ res.reviewText }}
                 </li>
                 {% endfor %}
             </ul>

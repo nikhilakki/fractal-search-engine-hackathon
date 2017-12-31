@@ -45,8 +45,6 @@ def index():
         print(query)
         db = mongo.db.search_queries.insert_one(query)
         result = mongo.db.qa.find({'asin': form.productId.data })
-        # review = mongo.db.result.insert_one(result)
-
         return render_template('index.html', form=form, searches=searches, result=result)
     return render_template('index.html', form=form, searches=searches, result=result)
 
