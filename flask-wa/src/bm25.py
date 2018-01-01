@@ -35,7 +35,7 @@ class BM25():
         self.L = list(len(i) / self.avglen for i in tokenized_documents)
         self.tokenized_documents = tokenized_documents
 
-    def get_term_frequencies(self, query):
+    def get_tf_for_query(self, query):
         """Computes the term frequency of query against each document
 
         Parameters
