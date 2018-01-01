@@ -37,9 +37,8 @@ def index():
     End point - http://127.0.0.1/
     '''
     form = SearchForm()
-    searches = [] # mongo.db.search_queries.find()
+    searches = mongo.db.search_queries.find()
     result = mongo.db.reviews.find()
-    output = []
     if form.validate_on_submit():
         query = {
             'Search' : form.query.data,
@@ -51,8 +50,8 @@ def index():
         rv_Df = mongo.db.reviews.find({'asin': form.productId.data})
         co = Core(query, qa_Df, rv_Df)
         output = co.engine()
-        return render_template('index.html', form=form, searches=searches, output=output)
-    return render_template('index.html', form=form, searches=searches, output=output)
+        return render_template('index.html', form=form, searches=searches, output=output, query=query)
+    return render_template('index.html', form=form, searches=searches)
 
 # Run Flask App
 if __name__ == "__main__":

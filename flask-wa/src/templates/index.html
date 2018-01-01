@@ -18,37 +18,52 @@
             {{ form.query(size=50,placeholder='Your Question') }}
             {{ form.productId(size=10, placeholder='Product ID') }}
 
-
-
             <button type="submit" value="go">Search</button>
         </form>
 
         <p>
             <ol>
                 List of Previous Searches -
-
                 <br>
+                {% if searches %}
 
-                {% for search in searches %}
+
+                {% for search in searches[0:5] %}
                 <li>
                     {{ search.Search }} - {{ search.ASIN_ID }}
                 </li>
-                <br>
+
                 {% endfor %}
+                  {% endif %}
             </ol>
         </p>
     </div>
 
     <div class="container">
         <p>
-            <ul>
-                {{ output }}
-                {# {% for res in result:  %} #}
-                <li>
-                        {# {{ res.reviewText }} #}
-                </li>
-                {# {% endfor %} #}
-            </ul>
+
+            {% if output  %}
+            {{ output }}
+            <br>
+            <br>
+                <h3>Question - {{ query.Search }}</h3>
+                <h3>Anwser - {{ output.answer }}</h3>
+
+                {% if query %}
+                  <h3>Top 5 Reviews -  {{ query.search }} </h3>
+                  <ol>
+                    {% if output.reviews %}
+                        {% for review in output.reviews %}
+                            <li>
+                                {{ review }} <strong>Sentiment - </strong> {{ output.review_sentiments[loop.index0] }}
+                                <strong>Relevance Score - </strong> {{ output.rvRelScore[loop.index0] }}
+                            </li>
+                        {% endfor %}
+                  </ol>
+                  {% endif %}
+                {% endif %}
+            {% endif %}
+
 
         </p>
     </div>

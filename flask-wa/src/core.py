@@ -84,11 +84,9 @@ class Core():
         # Create review json
         flag = 'r'
         df = RelevanceCheck.relevance_finder(processed_query, self.RV_df, flag)
-        reviews = df['reviewText'].iloc[0:5].to_json(orient='values')
-        revSentiments = df['review_sentiments'].iloc[0:5].to_json(
-            orient='values')
-        revRelScore = df['relevance_score'].iloc[0:5].to_json(
-            orient='values')
+        reviews = list(df['reviewText'].iloc[0:5])#.to_json(orient='values')
+        revSentiments = list(df['review_sentiments'].iloc[0:5])#.to_json(orient='values')
+        revRelScore = list(df['relevance_score'].iloc[0:5])#.to_json(orient='values')
 
         reviewJson = {'reviews': reviews,
             'review_sentiments': revSentiments, 'rvRelScore': revRelScore}
@@ -102,9 +100,9 @@ class Core():
 
         flag = 'r'
         df = RelevanceCheck.relevance_finder(processed_query, self.RV_df, flag)
-        reviews = df['reviewText'].iloc[0:5].to_json(orient='values')
-        revSentiments = df['review_sentiments'].iloc[0:5].to_json(orient='values')
-        revRelScore = df['relevance_score'].iloc[0:5].to_json(orient='values')
+        reviews = list(df['reviewText'].iloc[0:5])#.to_json(orient='values')
+        revSentiments = list(df['review_sentiments'].iloc[0:5])#.to_json(orient='values')
+        revRelScore = list(df['relevance_score'].iloc[0:5])#.to_json(orient='values')
 
         reviewJson = {'reviews': reviews,
             'review_sentiments': revSentiments, 'rvRelScore': revRelScore}
