@@ -17,10 +17,10 @@ class BM25():
     Attributes
     ----------
     avglen : float
-        Average length of document in `corpus`.
+    Average length of document in `corpus`.
     L : float
-        Length of the document relative to the average length
-        of the document in the corpus.
+    Length of the document relative to the average length
+    of the document in the corpus.
     """
 
     def __init__(self, tokenized_documents):
@@ -36,7 +36,7 @@ class BM25():
         self.tokenized_documents = tokenized_documents
 
     def get_term_frequencies(self, query):
-    	"""Computes the term frequency of query against each document
+        """Computes the term frequency of query against each document
 
         Parameters
         ----------
@@ -58,7 +58,7 @@ class BM25():
         return term_frequencies
 
     def inverse_document_frequencies(self, tokenized_documents):
-    	"""Computes inverse document frequency
+        """Computes inverse document frequency
 
         Parameters
         ----------
@@ -78,7 +78,7 @@ class BM25():
         return idf_values
 
     def get_idf_for_query(self, query):
-    	"""Computes inverse document frequency of the query
+        """Computes inverse document frequency of the query
 
         Parameters
         ----------

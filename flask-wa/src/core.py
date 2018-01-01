@@ -3,8 +3,8 @@
 
 __author__ = "Rohan Damodar"
 
-from QueryHandler import query_processing
-from relevanceCheck import relevance_finder
+from queryhandler import QueryHandler
+from relevancecheck import RelevanceCheck
 import pandas as pd
 
 class Core():
@@ -19,7 +19,7 @@ class Core():
         query = str(self.queryJson.values())
 
         # Step 2 : Process the query
-        processed_query, WH_flag = query_processing(query)
+        processed_query, WH_flag = QueryHandler.query_processing(query)
 
         # Step 3 : Extract relevant answers and
         #          relevant reviews.
@@ -74,20 +74,20 @@ class Core():
                           'answer_sentiments': None, 'qaRelScore': None}
         else:
             flag = 'q'
-            df = relevance_finder(processed_query, newDF, flag)
+            df = RelevanceCheck.relevance_finder(processed_query, newDF, flag)
             answer = df['answer'].iloc[0]
             ansSentiment = df['answer_sentiments'].iloc[0]
-            ansRelScore = df['qa_relevance_score'].iloc[0]
+            ansRelScore = df['relevance_score'].iloc[0]
             answerJson = {
                 'answer': answer, 'answer_sentiments': ansSentiment, 'qaRelScore': ansRelScore}
 
         # Create review json
         flag = 'r'
-        df = relevance_finder(processed_query, self.RV_df, flag)
+        df = RelevanceCheck.relevance_finder(processed_query, self.RV_df, flag)
         reviews = df['reviewText'].iloc[0:5].to_json(orient='values')
         revSentiments = df['review_sentiments'].iloc[0:5].to_json(
             orient='values')
-        revRelScore = df['rv_relevance_score'].iloc[0:5].to_json(
+        revRelScore = df['relevance_score'].iloc[0:5].to_json(
             orient='values')
 
         reviewJson = {'reviews': reviews,
@@ -101,10 +101,10 @@ class Core():
             'answer_sentiments': None, 'qaRelScore': None}
 
         flag = 'r'
-        df = relevance_finder(processed_query, self.RV_df, flag)
+        df = RelevanceCheck.relevance_finder(processed_query, self.RV_df, flag)
         reviews = df['reviewText'].iloc[0:5].to_json(orient='values')
         revSentiments = df['review_sentiments'].iloc[0:5].to_json(orient='values')
-        revRelScore = df['rv_relevance_score'].iloc[0:5].to_json(orient='values')
+        revRelScore = df['relevance_score'].iloc[0:5].to_json(orient='values')
 
         reviewJson = {'reviews': reviews,
             'review_sentiments': revSentiments, 'rvRelScore': revRelScore}
@@ -123,10 +123,10 @@ class Core():
                           'answer_sentiments':None, 'qaRelScore':None}
         else:
             flag = 'q'
-            df = relevance_finder(processed_query, newDF, flag)
+            df = RelevanceCheck.relevance_finder(processed_query, newDF, flag)
             answer = df['answer'].iloc[0]
             ansSentiment = df['answer_sentiments'].iloc[0]
-            ansRelScore = df['qa_relevance_score'].iloc[0]
+            ansRelScore = df['relevance_score'].iloc[0]
             answerJson = {'answer' : answer, 'answer_sentiments' : ansSentiment, 'qaRelScore' : ansRelScore}
 
         # default
