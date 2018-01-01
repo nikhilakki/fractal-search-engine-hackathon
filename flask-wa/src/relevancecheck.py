@@ -12,7 +12,7 @@ from bm25 import BM25
 
 class RelevanceCheck(object):
 
-    def relevance_finder(query, df, flag):
+    def get_tf_from_query(query, df, flag):
         df_new = df.reset_index()
 
         if flag == 'q':
