@@ -28,7 +28,7 @@
                 {% if searches %}
 
 
-                {% for search in searches[0:5] %}
+                {% for search in searches %}
                 <li>
                     {{ search.Search }} - {{ search.ASIN_ID }}
                 </li>
@@ -44,15 +44,20 @@
 
             {% if output  %}
             {# {{ output }} #}
-            <br>
-            <br>
+            <h2>Product ID - <strong>{{ query.ASIN_ID }}</strong></h2>
+                {% if output.answer %}
+                <h2>Q &amp; A</h2>
+
                 <h3>Question - {{ query.Search }}</h3>
                 <p><strong>Anwser -</strong> {{ output.answer }} <strong>Sentiment - {{ output.answer_sentiments }}</strong> <strong>Relevance Score - {{ output.qaRelScore }}</strong> </p>
+                {% else %}
 
+                <h3>No Q &amp; A found</h3>
+                {% endif %}
                 {% if query %}
-                  <h3>Top 5 Reviews -  {{ query.search }} </h3>
-                  <ol>
                     {% if output.reviews %}
+                  <h3>Top 5 Reviews -  {{ query.search }} </h3>
+                    <ol>
                         {% for review in output.reviews %}
                             <li>
                                 {{ review }} <strong>Sentiment - </strong> {{ output.review_sentiments[loop.index0] }}
@@ -60,7 +65,8 @@
                             </li>
                         {% endfor %}
                   </ol>
-
+                    {% else %}
+                    <h3>No Reviews Found</h3>
                   {% endif %}
                 {% endif %}
             {% endif %}
