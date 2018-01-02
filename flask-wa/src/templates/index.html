@@ -43,11 +43,11 @@
         <p>
 
             {% if output  %}
-            {{ output }}
+            {# {{ output }} #}
             <br>
             <br>
                 <h3>Question - {{ query.Search }}</h3>
-                <h3>Anwser - {{ output.answer }}</h3>
+                <p><strong>Anwser -</strong> {{ output.answer }} <strong>Sentiment - {{ output.answer_sentiments }}</strong> <strong>Relevance Score - {{ output.qaRelScore }}</strong> </p>
 
                 {% if query %}
                   <h3>Top 5 Reviews -  {{ query.search }} </h3>
@@ -60,6 +60,7 @@
                             </li>
                         {% endfor %}
                   </ol>
+
                   {% endif %}
                 {% endif %}
             {% endif %}
