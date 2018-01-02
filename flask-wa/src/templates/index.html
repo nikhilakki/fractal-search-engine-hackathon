@@ -1,15 +1,13 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>Amazon Reviews</title>
+{% extends "base.html" %}
+{% block content %}
 
-</head>
-<body>
     <div class="container">
-        <h1>Fractal Hiring Challenge</h1>
+        <div class="jumbotron">
+            <h1>Fractal Hiring Challenge</h1>
+
+        </div>
         <h2>Ask a question about beauty products!</h2>
+
         <form method="POST" action="/">
             {{ form.csrf_token }}
             {% if form.error %}
@@ -75,5 +73,4 @@
         </p>
     </div>
 
-</body>
-</html>
+{% endblock content %}

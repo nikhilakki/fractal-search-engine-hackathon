@@ -9,7 +9,7 @@ other processing when sever starts.
 """
 
 # Headers
-from commonutils import *
+from commonutils import Commonutils
 from preprocessor import Preprocessor
 import pandas as pd
 from pymongo import MongoClient
@@ -73,16 +73,16 @@ tokenised_review = review_preprocess(review_df['reviewText'])
 review_df['tokenised reviews'] = tokenised_review
 
 # performs sentiment analysis
-QA_df['answer_sentiments'] = sentiments(QA_df['answer'])
-review_df['review_sentiments'] = sentiments(review_df['reviewText'])
+QA_df['answer_sentiments'] = Commonutils.sentiments(QA_df['answer'])
+review_df['review_sentiments'] = Commonutils.sentiments(review_df['reviewText'])
 
 # Write to CSV for further export to MongoDB
 QA_df.to_csv('QA.csv')
 review_df.to_csv('Reviews.csv')
 
 # Creating MongoDB Database, Collections and appending processed CSV files
-port   = 32768
-dbname = 'fractal'
+port   = 32770
+dbname = 'new'
 filepath1 = 'QA.csv'
 filepath2 = 'Reviews.csv'
 

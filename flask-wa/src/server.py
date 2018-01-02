@@ -24,13 +24,13 @@ app = Flask(__name__) # Flask app init
 # Flask app configurations
 app.config['SECRET_KEY'] = "asdjfkn2k4n2k3n4&FASghDV*^(SAD"
 # Mongodb URI along with DB name ('fractal')
-app.config['MONGO_URI'] = "mongodb://localhost:32768/fractal"
+app.config['MONGO_URI'] = "mongodb://localhost:32770/fractal"
 
 mongo = PyMongo(app) # Mongo db object init
 
 # Views / Routes
-@app.route('/', methods=('GET', 'POST'))
-def index():
+@app.route('/dashboard', methods=('GET', 'POST'))
+def dashboard():
     '''index view displays history of searches and gives the option to put in
     new search query.
 
@@ -50,9 +50,25 @@ def index():
         rv_Df = mongo.db.reviews.find({'asin': form.productId.data})
         co = Core(query, qa_Df, rv_Df)
         output = co.engine()
-        return render_template('index.html', form=form, searches=searches, output=output, query=query)
-    return render_template('index.html', form=form, searches=searches)
+        return render_template('app/dashboard.html', form=form, searches=searches, output=output, query=query)
+    return render_template('app/dashboard.html', form=form, searches=searches)
+
+@app.route('/')
+def about():
+    return render_template('app/about.html')
+
+@app.route('/register')
+def register():
+    return render_template('app/register.html')
+
+@app.route('/login')
+def login():
+    return render_template('app/login.html')
+
+@app.route('/logout')
+def logout():
+    return render_template('app/logout.html')
 
 # Run Flask App
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.run(host='0.0.0.0', port=5000, debug=True)
