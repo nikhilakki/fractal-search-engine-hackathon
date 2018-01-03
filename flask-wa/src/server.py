@@ -24,7 +24,7 @@ app = Flask(__name__) # Flask app init
 # Flask app configurations
 app.config['SECRET_KEY'] = "asdjfkn2k4n2k3n4&FASghDV*^(SAD"
 # Mongodb URI along with DB name ('fractal')
-app.config['MONGO_URI'] = "mongodb://localhost:32770/new"
+app.config['MONGO_URI'] = "mongodb://localhost:27017/new"
 
 mongo = PyMongo(app) # Mongo db object init
 
@@ -52,13 +52,12 @@ def dashboard():
             'ASIN_ID': form.productId.data,
         }
 
-        # query_values = str(query.values())
-        # query = query_values[1]
-        print(query)
+        #query_values = str(query.values())
+        user_query = query.get('Search')
         # db = mongo.db.search_queries.insert_one(query)
         qa_Df = mongo.db.qa.find({'asin': form.productId.data})
         rv_Df = mongo.db.reviews.find({'asin': form.productId.data})
-        co = Core(query, qa_Df, rv_Df)
+        co = Core(user_query, qa_Df, rv_Df)
         output = co.engine()
         return render_template('app/dashboard.html', form=form, output=output, query=query)
     return render_template('app/dashboard.html', form=form)#, searches=searches)
