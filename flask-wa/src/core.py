@@ -67,6 +67,12 @@ class Core():
 
         # Step 2 : Process the query
         processed_query, WH_flag = QueryHandler.query_processing(query)
+        # Handle invalid query
+        if len(processed_query) == 0:
+            answerJson = {'answer': None, 'answer_sentiments': None, 'qaRelScore': None}
+            reviewJson = {'reviews': None, 'review_sentiments': None, 'rvRelScore': None}
+            sendBackJson = self.merged(answerJson, reviewJson)
+            return sendBackJson
 
         # Step 3 : Extract relevant answers and
         #          relevant reviews.
@@ -243,18 +249,18 @@ class Core():
             newDF = self.QA_df[self.QA_df['questionType'] == "open-ended"]
 
         if len(newDF) == 0:
-            answerJson = {'answer': "Oops! No relevant answer found for your question type!", \
-                          'answer_sentiments':None, 'qaRelScore':None}
+            answerJson = {'answer': "Oops! No relevant answer found for your question type!",
+                          'answer_sentiments': None, 'qaRelScore': None}
         else:
             flag = 'q'
             df = RelevanceCheck.relevance_finder(processed_query, newDF, flag)
             answer = df['answer'].iloc[0]
             ansSentiment = df['answer_sentiments'].iloc[0]
             ansRelScore = df['relevance_score'].iloc[0]
-            answerJson = {'answer' : answer, 'answer_sentiments' : ansSentiment, 'qaRelScore' : ansRelScore}
+            answerJson = {'answer': answer, 'answer_sentiments': ansSentiment, 'qaRelScore': ansRelScore}
 
         # default
-        reviewJson = {'reviews' : None, 'review_sentiments' : None, 'rvRelScore' : None}
+        reviewJson = {'reviews': None, 'review_sentiments': None, 'rvRelScore': None}
 
         return answerJson, reviewJson
 
@@ -272,8 +278,8 @@ class Core():
         reviewJson : dictionary
             dictionary of relevant reviews+sentiment+relevanceScore
         """
-        answerJson = {'answer' : None, 'answer_sentiments' : None, 'qaRelScore' : None}
-        reviewJson = {'reviews' : None, 'review_sentiments' : None, 'rvRelScore' : None}
+        answerJson = {'answer': None, 'answer_sentiments': None, 'qaRelScore': None}
+        reviewJson = {'reviews': None, 'review_sentiments': None, 'rvRelScore': None}
 
         return answerJson, reviewJson
 
