@@ -51,6 +51,9 @@ def dashboard():
             'Search' : form.query.data,
             'ASIN_ID': form.productId.data,
         }
+
+        # query_values = str(query.values())
+        # query = query_values[1]
         print(query)
         # db = mongo.db.search_queries.insert_one(query)
         qa_Df = mongo.db.qa.find({'asin': form.productId.data})

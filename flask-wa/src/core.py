@@ -64,6 +64,8 @@ class Core():
         """
         # Step 1: Extract query from json
         query = str(self.queryJson.values())
+        # query_values = str(self.queryJson.values())
+        # query = query_values[1]
 
         # Step 2 : Process the query
         processed_query, WH_flag = QueryHandler.query_processing(query)
