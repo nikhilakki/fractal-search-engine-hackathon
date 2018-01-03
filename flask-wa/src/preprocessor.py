@@ -43,7 +43,7 @@ class Preprocessor(object):
             words for words in token_words if not words in stop_words
         ]
 
-        stopwords_free = [words for words in stopwords_free if len(words) > 2]
+        #stopwords_free = [words for words in stopwords_free if len(words) > 1]
 
         return stopwords_free
 
@@ -79,7 +79,7 @@ class Preprocessor(object):
         Input : list of words
         Output : Flag ->  True/False
         """
-        WH_postag = ['WDT', 'WP', 'WP$', 'WRB']
+        WH_postag = ['WP', 'WP$', 'WRB']
 
         postag = nltk.pos_tag(list_words)
         WH_Question = [True for value in postag if value[1] in WH_postag]
