@@ -43,7 +43,7 @@ class Preprocessor(object):
             words for words in token_words if not words in stop_words
         ]
 
-	stopwords_free = [words for words in stopwords_free if len(words) > 2]
+        stopwords_free = [words for words in stopwords_free if len(words) > 2]
 
         return stopwords_free
 
