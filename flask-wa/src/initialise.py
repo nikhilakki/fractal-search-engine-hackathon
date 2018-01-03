@@ -73,8 +73,8 @@ tokenised_review = review_preprocess(review_df['reviewText'])
 review_df['tokenised reviews'] = tokenised_review
 
 # performs sentiment analysis
-QA_df['answer_sentiments'] = Commonutils.sentiments(QA_df['answer'])
-review_df['review_sentiments'] = Commonutils.sentiments(review_df['reviewText'])
+QA_df['answer_sentiments'] = Commonutils.sentiments(QA_df, 'q')
+review_df['review_sentiments'] = Commonutils.sentiments(review_df, 'r')
 
 # Write to CSV for further export to MongoDB
 QA_df.to_csv('QA.csv')
