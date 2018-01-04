@@ -12,30 +12,20 @@ comming from user input.
 import nltk
 from preprocessor import Preprocessor
 
+
 class QueryHandler(object):
-
-    def input_query():
-        """
-        Funtion used to get the query from the UI
-        """
-        user_query = "will this lotion work on my wrinkles?"
-        return user_query
-
 
     def query_processing(user_query):
         """
         Function used to preprocess the query
         """
+        stop_words = ['that', 'That']
         query_tokens = Preprocessor.tokenise(user_query)
-        stemmed_query = Preprocessor.stemmer(query_tokens)
+        stopwords_free = [
+            words for words in query_tokens if not words in stop_words
+        ]
+        stemmed_query = Preprocessor.stemmer(stopwords_free)
         WH_flag = Preprocessor.find_WH_sent(stemmed_query)
         stopword_removed_query = Preprocessor.stopword_removal(stemmed_query)
 
         return stopword_removed_query, WH_flag
-
-
-
-
-
-
-
