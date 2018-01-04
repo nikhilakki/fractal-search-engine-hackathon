@@ -9,6 +9,7 @@ __author__ = "Rohan Damodar"
 
 import numpy as np
 import math
+import ast
 
 
 class BM25():
@@ -70,10 +71,14 @@ class BM25():
         idf_values : dict
             Dictionary of inverse document frequencies of each word in the corpus
         """
+        encoded_tokenized_documents = []
+        for i in range(len(tokenized_documents)):
+            encoded_tokenized_documents.append(ast.literal_eval(self.tokenized_documents[i]))
+
         idf_values = dict()
-        all_tokens_set = set([item for sublist in self.tokenized_documents for item in sublist])
+        all_tokens_set = set([item for sublist in encoded_tokenized_documents for item in sublist])
         for tkn in all_tokens_set:
-            contains_token = map(lambda doc: tkn in doc, self.tokenized_documents)
+            contains_token = list(map(lambda doc: tkn in doc, self.tokenized_documents))
             idf_values[tkn] = 1 + math.log(len(self.tokenized_documents) / (sum(contains_token)))
         return idf_values
 
@@ -165,5 +170,8 @@ class BM25():
             lis.append(bm25)
             x = 0
             bm25 = 0
-        normalizedBM25 = np.array([i / sum(lis) for i in lis])
+        if sum(lis) == 0:
+            normalizedBM25 = np.array([[0]]*len(lis))
+        else:
+            normalizedBM25 = np.array([i / sum(lis) for i in lis])
         return normalizedBM25
