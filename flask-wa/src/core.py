@@ -70,14 +70,17 @@ class Core():
 
         # Step 2.1 : Handle invalid query
         if len(processed_query) == 0:
-            answerJson = {'answer': None, 'answer_sentiments': None, 'qaRelScore': None}
-            reviewJson = {'reviews': None, 'review_sentiments': None, 'rvRelScore': None}
+            answerJson = {'answer': None,
+                          'answer_sentiments': None, 'qaRelScore': None}
+            reviewJson = {'reviews': None,
+                          'review_sentiments': None, 'rvRelScore': None}
             sendBackJson = self.merged(answerJson, reviewJson)
             return sendBackJson
 
         # Step 3 : Extract relevant answers and
         #          relevant reviews.
-        relAnswer, relReviews = self.find_relevant_stuff(processed_query, WH_flag)
+        relAnswer, relReviews = self.find_relevant_stuff(
+            processed_query, WH_flag)
 
         # Step 4 : Create return json
         sendBackJson = self.merged(relAnswer, relReviews)
@@ -107,7 +110,8 @@ class Core():
         val = self.check_asin_id()
 
         if val == 0:
-            relAnswer, relReviews = self.present_in_both(processed_query, WH_flag)
+            relAnswer, relReviews = self.present_in_both(
+                processed_query, WH_flag)
         elif val == 1:
             relAnswer, relReviews = self.present_only_in_rv(processed_query)
         elif val == 2:
@@ -166,9 +170,9 @@ class Core():
         """
         # Create answer json
         if len(WH_flag) == 0:
-            newDF = self.QA_df[self.QA_df['questionType'] == "yes/no"]
+            newDF = self.QA_df[self.QA_df['question_type'] == "yes/no"]
         else:
-            newDF = self.QA_df[self.QA_df['questionType'] == "open-ended"]
+            newDF = self.QA_df[self.QA_df['question_type'] == "open-ended"]
 
         if len(newDF) == 0:
             answerJson = {'answer': "Oops! No relevant answer found for your question type!",
@@ -182,10 +186,10 @@ class Core():
 
             if ansRelScore == 0:
                 answerJson = {'answer': "Sorry! No relevant answer found for your question.",
-                          'answer_sentiments': None, 'qaRelScore': None}
+                              'answer_sentiments': None, 'qaRelScore': None}
             else:
                 answerJson = {'answer': answer, 'answer_sentiments': ansSentiment,
-                          'qaRelScore': ansRelScore}
+                              'qaRelScore': ansRelScore}
 
         # Create review json
         flag = 'r'
@@ -197,10 +201,10 @@ class Core():
         if revRelScore[0] == 0:
             msg = ["Sorry! No relevant reviews found!"]
             reviewJson = {'reviews': msg,
-                'review_sentiments': None, 'rvRelScore': None}
+                          'review_sentiments': None, 'rvRelScore': None}
         else:
             reviewJson = {'reviews': reviews,
-                'review_sentiments': revSentiments, 'rvRelScore': revRelScore}
+                          'review_sentiments': revSentiments, 'rvRelScore': revRelScore}
 
         return answerJson, reviewJson
 
@@ -222,7 +226,7 @@ class Core():
         """
         # default
         answerJson = {'answer': None,
-            'answer_sentiments': None, 'qaRelScore': None}
+                      'answer_sentiments': None, 'qaRelScore': None}
 
         flag = 'r'
         df = RelevanceCheck.relevance_finder(processed_query, self.RV_df, flag)
@@ -233,10 +237,10 @@ class Core():
         if revRelScore[0] == 0:
             msg = ["Sorry! No relevant reviews found!"]
             reviewJson = {'reviews': msg,
-                'review_sentiments': None, 'rvRelScore': None}
+                          'review_sentiments': None, 'rvRelScore': None}
         else:
             reviewJson = {'reviews': reviews,
-                'review_sentiments': revSentiments, 'rvRelScore': revRelScore}
+                          'review_sentiments': revSentiments, 'rvRelScore': revRelScore}
 
         return answerJson, reviewJson
 
@@ -260,9 +264,9 @@ class Core():
             dictionary of relevant reviews+sentiment+relevanceScore
         """
         if len(WH_flag) == 0:
-            newDF = self.QA_df[self.QA_df['questionType'] == "yes/no"]
+            newDF = self.QA_df[self.QA_df['question_type'] == "yes/no"]
         else:
-            newDF = self.QA_df[self.QA_df['questionType'] == "open-ended"]
+            newDF = self.QA_df[self.QA_df['question_type'] == "open-ended"]
 
         if len(newDF) == 0:
             answerJson = {'answer': "Oops! No relevant answer found for your question type!",
@@ -276,13 +280,14 @@ class Core():
 
             if ansRelScore == 0:
                 answerJson = {'answer': "Sorry! No relevant answer found for your question.",
-                          'answer_sentiments': None, 'qaRelScore': None}
+                              'answer_sentiments': None, 'qaRelScore': None}
             else:
                 answerJson = {'answer': answer, 'answer_sentiments': ansSentiment,
-                          'qaRelScore': ansRelScore}
+                              'qaRelScore': ansRelScore}
 
         # default
-        reviewJson = {'reviews': None, 'review_sentiments': None, 'rvRelScore': None}
+        reviewJson = {'reviews': None,
+                      'review_sentiments': None, 'rvRelScore': None}
 
         return answerJson, reviewJson
 
@@ -300,8 +305,10 @@ class Core():
         reviewJson : dictionary
             dictionary of relevant reviews+sentiment+relevanceScore
         """
-        answerJson = {'answer': None, 'answer_sentiments': None, 'qaRelScore': None}
-        reviewJson = {'reviews': None, 'review_sentiments': None, 'rvRelScore': None}
+        answerJson = {'answer': None,
+                      'answer_sentiments': None, 'qaRelScore': None}
+        reviewJson = {'reviews': None,
+                      'review_sentiments': None, 'rvRelScore': None}
 
         return answerJson, reviewJson
 
