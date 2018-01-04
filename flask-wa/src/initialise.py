@@ -22,6 +22,7 @@ review_dataset_path = "../../../dataset/json/Beauty_5.json"
 # init MongoClient
 client = MongoClient('localhost', 32768)
 
+
 def question_preprocess(QA_filtered_df):
     """
     Function used to preprosess Questions
@@ -53,8 +54,32 @@ def review_preprocess(review_filtered_df):
     return tokenised_review
 
 
+def categories_question(QA_filter_df):
+    """
+    Function used to categories questions based on W/H words
+    """
+    question_type = []
+    stop_words = ['that', 'That']
+    for question in QA_filter_df:
+
+        tokens = Preprocessor.tokenise(question)
+        stopwords_free = [
+            words for words in tokens if not words in stop_words
+        ]
+        stemmed_query = Preprocessor.stemmer(tokens)
+
+        WH_flag = Preprocessor.find_WH_sent(stemmed_query)
+
+        if len(WH_flag) == 0:
+            question_type.append("yes/no")
+        else:
+            question_type.append("open-ended")
+    return question_type
+
+
 # check the usage of the function from help(cleanJson)
 # Commonutils.cleanJson(QA_dataset_path) ## since we are using newFile.json and Beauty_5.json which are already cleaned
+
 
 # check the usage of the function from help(load_QA_dataset)
 # QA_df = load_QA_dataset()
@@ -72,6 +97,9 @@ QA_df['tokenised question'] = tokenised_question
 tokenised_review = review_preprocess(review_df['reviewText'])
 review_df['tokenised reviews'] = tokenised_review
 
+# Categories the questions
+QA_df['question_type'] = categories_question(QA_df['question'])
+
 # performs sentiment analysis
 QA_df['answer_sentiments'] = Commonutils.sentiments(QA_df, 'q')
 review_df['review_sentiments'] = Commonutils.sentiments(review_df, 'r')
@@ -81,10 +109,12 @@ QA_df.to_csv('QA.csv')
 review_df.to_csv('Reviews.csv')
 
 # Creating MongoDB Database, Collections and appending processed CSV files
-port   = 32770
+port = 32770
 dbname = 'new'
 filepath1 = 'QA.csv'
 filepath2 = 'Reviews.csv'
 
-MongoDBCreate.import_content(filepath1, port=port, dbname=dbname, tablename='qa')
-MongoDBCreate.import_content(filepath2, port=port, dbname=dbname, tablename='reviews')
+MongoDBCreate.import_content(
+    filepath1, port=port, dbname=dbname, tablename='qa')
+MongoDBCreate.import_content(
+    filepath2, port=port, dbname=dbname, tablename='reviews')
