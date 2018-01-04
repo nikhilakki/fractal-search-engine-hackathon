@@ -18,23 +18,6 @@
 
             <button type="submit" value="go">Search</button>
         </form>
-
-        <p>
-            <ol>
-                List of Previous Searches -
-                <br>
-                {% if searches %}
-
-
-                {% for search in searches %}
-                <li>
-                    {{ search.Search }} - {{ search.ASIN_ID }}
-                </li>
-
-                {% endfor %}
-                  {% endif %}
-            </ol>
-        </p>
     </div>
 
     <div class="container">
@@ -42,11 +25,11 @@
 
             {% if output  %}
             {# {{ output }} #}
-            <h2>Product ID - <strong>{{ query.ASIN_ID }}</strong></h2>
+            <h4>Product ID - <strong>{{ query.ASIN_ID }}</strong> &amp; Query - <strong>{{ query.Search }}</strong></h4>
                 {% if output.answer %}
                 <h2>Q &amp; A</h2>
 
-                <h3>Question - {{ query.Search }}</h3>
+                <h4>Question - {{ query.Search }}</h4>
                 <p><strong>Anwser -</strong> {{ output.answer }} <strong>Sentiment - {{ output.answer_sentiments }}</strong> <strong>Relevance Score - {{ output.qaRelScore }}</strong> </p>
                 {% else %}
 

@@ -63,10 +63,14 @@ class Core():
             - 'rvRelScore'
         """
         # Step 1: Extract query from json
-        query = str(self.queryJson.values())
+        # query = str(self.queryJson.values())
+        query = self.queryJson
+        #print(query)
+        #query = query_values[1]
 
         # Step 2 : Process the query
         processed_query, WH_flag = QueryHandler.query_processing(query)
+        
         # Handle invalid query
         if len(processed_query) == 0:
             answerJson = {'answer': None, 'answer_sentiments': None, 'qaRelScore': None}
@@ -77,7 +81,7 @@ class Core():
         # Step 3 : Extract relevant answers and
         #          relevant reviews.
         relAnswer, relReviews = self.find_relevant_stuff(processed_query, WH_flag)
-
+        
         # Step 4 : Create return json
         sendBackJson = self.merged(relAnswer, relReviews)
 
@@ -175,6 +179,7 @@ class Core():
         else:
             flag = 'q'
             df = RelevanceCheck.relevance_finder(processed_query, newDF, flag)
+            
             answer = df['answer'].iloc[0]
             ansSentiment = df['answer_sentiments'].iloc[0]
             ansRelScore = df['relevance_score'].iloc[0]
@@ -245,8 +250,10 @@ class Core():
         """
         if len(WH_flag) == 0:
             newDF = self.QA_df[self.QA_df['questionType'] == "yes/no"]
+            
         else:
             newDF = self.QA_df[self.QA_df['questionType'] == "open-ended"]
+            
 
         if len(newDF) == 0:
             answerJson = {'answer': "Oops! No relevant answer found for your question type!",

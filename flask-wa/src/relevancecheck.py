@@ -21,7 +21,8 @@ class RelevanceCheck(object):
             idf = bm.get_idf_for_query(query)
             relevance_score = bm.get_bm25_scores(query, tf, idf)
             df_new['relevance_score'] = relevance_score
-            df_new.sort_values(['relevance_score'], ascending=False)
+            # df_new.sort_values(['relevance_score'], ascending=False)
+            df_new.sort_values(['relevance_score'],ascending=False, inplace=True)
             return df_new
         else:
             bm = BM25(df_new['tokenised reviews'])
@@ -29,5 +30,6 @@ class RelevanceCheck(object):
             idf = bm.get_idf_for_query(query)
             relevance_score = bm.get_bm25_scores(query, tf, idf)
             df_new['relevance_score'] = relevance_score
-            df_new.sort_values(['relevance_score'], ascending=False)
+            # df_new.sort_values(['relevance_score'], ascending=False)
+            df_new.sort_values(['relevance_score'],ascending=False,inplace=True)
             return df_new
