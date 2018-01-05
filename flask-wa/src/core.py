@@ -194,9 +194,10 @@ class Core():
         # Create review json
         flag = 'r'
         df = RelevanceCheck.relevance_finder(processed_query, self.RV_df, flag)
-        reviews = list(df['reviewText'].iloc[0:5])
-        revSentiments = list(df['review_sentiments'].iloc[0:5])
-        revRelScore = list(df['relevance_score'].iloc[0:5])
+        reviews, revSentiments, revRelScore = self.review_generator(df, ansSentiment)
+        # reviews = list(df['reviewText'].iloc[0:5])
+        # revSentiments = list(df['review_sentiments'].iloc[0:5])
+        # revRelScore = list(df['relevance_score'].iloc[0:5])
 
         if revRelScore[0] == 0:
             msg = ["Sorry! No relevant reviews found!"]
@@ -229,10 +230,12 @@ class Core():
                       'answer_sentiments': None, 'qaRelScore': None}
 
         flag = 'r'
+        ansSentiment = 'None'
         df = RelevanceCheck.relevance_finder(processed_query, self.RV_df, flag)
-        reviews = list(df['reviewText'].iloc[0:5])
-        revSentiments = list(df['review_sentiments'].iloc[0:5])
-        revRelScore = list(df['relevance_score'].iloc[0:5])
+        reviews, revSentiments, revRelScore = self.review_generator(df, ansSentiment)
+        # reviews = list(df['reviewText'].iloc[0:5])
+        # revSentiments = list(df['review_sentiments'].iloc[0:5])
+        # revRelScore = list(df['relevance_score'].iloc[0:5])
 
         if revRelScore[0] == 0:
             msg = ["Sorry! No relevant reviews found!"]
@@ -311,6 +314,88 @@ class Core():
                       'review_sentiments': None, 'rvRelScore': None}
 
         return answerJson, reviewJson
+
+    def review_generator(self, dataframe, answerSentiment):
+        """Generates top relevant and complimentary reviews
+
+        Parameters
+        ----------
+        dataframe : pandas dataframe
+            review dataframe sorted by their relevancy scores
+        answerSentiment : string
+            sentiment of the answer to user's query
+
+        Returns
+        -------
+        reviews : list
+            list of user reviews
+        revSentiments : list
+            list of the sentiment scores of the reviews
+        revRelScore : list
+            list of the relevance scores of the reviews
+        """
+        review1 = dataframe['reviewText'].iloc[0]
+        review1Sentiments = dataframe['review_sentiments'].iloc[0]
+        review1RelScore = dataframe['relevance_score'].iloc[0]
+
+        if answerSentiment == 'positive':
+            ndf = dataframe[dataframe['review_sentiments'] == 'negative']
+
+            if len(ndf) == 0:  # No negative reviews
+                review2 = dataframe['reviewText'].iloc[1]
+                review3 = dataframe['reviewText'].iloc[2]
+                review2Sentiments = dataframe['review_sentiments'].iloc[1]
+                review3Sentiments = dataframe['review_sentiments'].iloc[2]
+                review2RelScore = dataframe['relevance_score'].iloc[1]
+                review3RelScore = dataframe['relevance_score'].iloc[2]
+            elif len(ndf) == 1:  # Only 1 negative review
+                review2 = ndf['reviewText'].iloc[0]
+                review2Sentiments = ndf['review_sentiments'].iloc[0]
+                review2RelScore = ndf['relevance_score'].iloc[0]
+            else:  # More than 1 negative review
+                review2 = ndf['reviewText'].iloc[0]
+                review3 = ndf['reviewText'].iloc[1]
+                review2Sentiments = ndf['review_sentiments'].iloc[0]
+                review3Sentiments = ndf['review_sentiments'].iloc[1]
+                review2RelScore = ndf['relevance_score'].iloc[0]
+                review3RelScore = ndf['relevance_score'].iloc[1]
+
+        elif answerSentiment == 'negative':
+            ndf = dataframe[dataframe['review_sentiments'] == 'positive']
+
+            if len(ndf) == 0:  # No positive reviews
+                review2 = dataframe['reviewText'].iloc[1]
+                review3 = dataframe['reviewText'].iloc[2]
+                review2Sentiments = dataframe['review_sentiments'].iloc[1]
+                review3Sentiments = dataframe['review_sentiments'].iloc[2]
+                review2RelScore = dataframe['relevance_score'].iloc[1]
+                review3RelScore = dataframe['relevance_score'].iloc[2]
+            elif len(ndf) == 1:  # Only 1 positive review
+                review2 = ndf['reviewText'].iloc[0]
+                review2Sentiments = ndf['review_sentiments'].iloc[0]
+                review2RelScore = ndf['relevance_score'].iloc[0]
+            else:  # More than 1 positive review
+                review2 = ndf['reviewText'].iloc[0]
+                review3 = ndf['reviewText'].iloc[1]
+                review2Sentiments = ndf['review_sentiments'].iloc[0]
+                review3Sentiments = ndf['review_sentiments'].iloc[1]
+                review2RelScore = ndf['relevance_score'].iloc[0]
+                review3RelScore = ndf['relevance_score'].iloc[1]
+
+        elif answerSentiment == 'None':
+            review2 = dataframe['reviewText'].iloc[1]
+            review3 = dataframe['reviewText'].iloc[2]
+            review2Sentiments = dataframe['review_sentiments'].iloc[1]
+            review3Sentiments = dataframe['review_sentiments'].iloc[2]
+            review2RelScore = dataframe['relevance_score'].iloc[1]
+            review3RelScore = dataframe['relevance_score'].iloc[2]
+
+        # List everything
+        reviews = [review1, review2, review3]
+        revSentiments = [review1Sentiments, review2Sentiments, review3Sentiments]
+        revRelScore = [review1RelScore, review2RelScore, review3RelScore]
+
+        return reviews, revSentiments, revRelScore
 
     def merged(self, dic1, dic2):
         """Merge two dictionaries together
