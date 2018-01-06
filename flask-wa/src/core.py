@@ -349,15 +349,12 @@ class Core():
                 review2RelScore = dataframe['relevance_score'].iloc[1]
                 review3RelScore = dataframe['relevance_score'].iloc[2]
             elif len(ndf) == 1:  # Only 1 negative review
-                review2 = ndf['reviewText'].iloc[0]
-                review2Sentiments = ndf['review_sentiments'].iloc[0]
-                review2RelScore = ndf['relevance_score'].iloc[0]
-                # List everything
-                reviews = [review1, review2]
-                revSentiments = [review1Sentiments, review2Sentiments]
-                revRelScore = [review1RelScore, review2RelScore]
-                # return since we only need 2 reviews
-                return reviews, revSentiments, revRelScore
+                review2 = dataframe['reviewText'].iloc[1]
+                review3 = ndf['reviewText'].iloc[0]
+                review2Sentiments = dataframe['review_sentiments'].iloc[1]
+                review3Sentiments = ndf['review_sentiments'].iloc[0]
+                review2RelScore = dataframe['relevance_score'].iloc[1]
+                review3RelScore = ndf['relevance_score'].iloc[0]
             else:  # More than 1 negative review
                 review2 = ndf['reviewText'].iloc[0]
                 review3 = ndf['reviewText'].iloc[1]
@@ -377,15 +374,12 @@ class Core():
                 review2RelScore = dataframe['relevance_score'].iloc[1]
                 review3RelScore = dataframe['relevance_score'].iloc[2]
             elif len(ndf) == 1:  # Only 1 positive review
-                review2 = ndf['reviewText'].iloc[0]
-                review2Sentiments = ndf['review_sentiments'].iloc[0]
-                review2RelScore = ndf['relevance_score'].iloc[0]
-                # List everything
-                reviews = [review1, review2]
-                revSentiments = [review1Sentiments, review2Sentiments]
-                revRelScore = [review1RelScore, review2RelScore]
-                # return since we only need 2 reviews
-                return reviews, revSentiments, revRelScore
+                review2 = dataframe['reviewText'].iloc[1]
+                review3 = ndf['reviewText'].iloc[0]
+                review2Sentiments = dataframe['review_sentiments'].iloc[1]
+                review3Sentiments = ndf['review_sentiments'].iloc[0]
+                review2RelScore = dataframe['relevance_score'].iloc[1]
+                review3RelScore = ndf['relevance_score'].iloc[0]
             else:  # More than 1 positive review
                 review2 = ndf['reviewText'].iloc[0]
                 review3 = ndf['reviewText'].iloc[1]
