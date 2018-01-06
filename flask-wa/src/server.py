@@ -42,8 +42,6 @@ def dashboard():
             'Search' : form.query.data,
             'ASIN_ID': form.productId.data,
         }
-
-
         user_query = query.get('Search')
         qa_Df = mongo.db.qa.find({'asin': form.productId.data})
         rv_Df = mongo.db.reviews.find({'asin': form.productId.data})

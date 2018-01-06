@@ -8,23 +8,82 @@
         </div>
         <h2>Ask a question about beauty products!</h2>
 
-        <form method="POST">
+    <div class="form-group">
+        <form method="POST" class="form-inline">
             {{ form.csrf_token }}
             {% if form.error %}
                 {{ form.error }}
             {% endif %}
-            {{ form.query(size=50,placeholder='Your Question') }}
-            {{ form.productId(size=10, placeholder='Product ID') }}
-
-            <button type="submit" value="go">Search</button>
+            {{ form.query(size="50", placeholder="Your Question",class="form-control") }}
+            {{ form.productId(placeholder="Product ID", class="form-control") }}
+            <button type="submit" class="btn btn-success" value="go">Search</button>
         </form>
     </div>
+    </div>
 
+     {% if output  %}
     <div class="container">
-        <p>
+      {% if output.answer is none and output.reviews is none  %}
+            <h2>Product ID - <strong>{{ query.ASIN_ID }}</strong> Doesn't exist!</h2>
 
+        {% else %}
+
+            {% if output.answer_sentiments is not none and output.qaRelScore is not none %}
+            <h2>Q &amp; A</h2>
+            <h3>Question - {{ query.Search }}</h3>
+            <p><strong>Anwser -</strong> {{ output.answer }}
+                <strong>Sentiment - {% if  "positive" in output.answer_sentiments %}
+                       <span id="pos">{{ output.answer_sentiments }}</span>
+                    {% elif  "negative" in output.answer_sentiments %}
+                        <span id="neg">{{ output.answer_sentiments }}</span>
+                        {% endif %}
+                </strong> <strong>Relevance Score - {{ output.qaRelScore }}</strong> </p>
+            {% else %}
+                <h3>No Q &amp; A found</h3>
+            {% endif %}<!--Q&A if else-->
+
+            {# {% if query %} #}
+            {# {% if output.reviews %} #}
+            {% if output.review_sentiments != none and output.rvRelScore != none %}
+              <h3>Top 3 Reviews -  {{ query.search }} of Product ID - <strong>{{ query.ASIN_ID }}</strong></h3>
+                <div id="accordion" role="tablist" aria-multiselectable="true">
+                {% for review in output.reviews %}
+                {# {% if output.review_sentiments != none and output.rvRelScore != none %} #}
+                  <div class="card">
+                    <div class="card-header" role="tab" id="headingOne">
+                      <h5 class="mb-0">
+                        <a data-toggle="collapse" data-parent="#accordion" href="#collapse{{loop.index}}" aria-expanded="true" aria-controls="collapse{{loop.index}}">
+                            <h4>Review - {{ loop.index }} </h4>
+                        </a>
+                      </h5>
+                    </div>
+
+                    <div id="collapse{{loop.index}}" class="collapse show" role="tabpanel" aria-labelledby="heading{{loop.index}}">
+                      <div class="card-block">
+                        <p>{{ review }} <strong>Sentiment - </strong> {% if output.review_sentiments[loop.index0] == "positive" %}
+                            <span id="pos">{{ output.review_sentiments[loop.index0] }}</span>
+                        {% elif output.review_sentiments[loop.index0] == "negative" %}
+                            <span id="neg">{{ output.review_sentiments[loop.index0] }}</span>
+                        {% endif %}
+                            <strong>Relevance Score - </strong> {{ output.rvRelScore[loop.index0] }}</p>
+                      </div>
+                    </div>
+                  </div>
+                  {% endfor %}
+                {% else %}
+                    <h3>Sorry! No relevant answer found for your question.</h3>
+                 {% endif %}
+
+
+                {# {% else %} #}
+                <!--<h3>No Reviews Found</h3>-->
+                  {# {% <!--output.reviews-->
+                {# {% endif %}<!--query--> #}
+        {% endif %}<!--none check-->
+    {% endif %} <!--output-->
+<!--
             {% if output  %}
-            {# {{ output }} #}
+
             <h4>Product ID - <strong>{{ query.ASIN_ID }}</strong> &amp; Query - <strong>{{ query.Search }}</strong></h4>
                 {% if output.answer %}
                 <h2>Q &amp; A</h2>
@@ -53,7 +112,7 @@
             {% endif %}
 
 
-        </p>
-    </div>
 
+    </div>
+-->
 {% endblock content %}
