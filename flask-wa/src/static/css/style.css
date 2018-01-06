@@ -40,3 +40,7 @@ body {
   /*text-align: center;*/
   background:transparent;
 }
+
+.container {
+    padding-top: 10px;
+}

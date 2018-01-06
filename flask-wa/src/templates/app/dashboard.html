@@ -13,9 +13,9 @@
     <div class="form-group">
         <form method="POST" class="form-inline">
             {{ form.csrf_token }}
-            {% if form.error %}
+            {% if form.error %} <!--if start-->
                 {{ form.error }}
-            {% endif %}
+            {% endif %}<!--if end-->
             {{ form.query(size="50", placeholder="Your Question",class="form-control") }}
             {{ form.productId(placeholder="Product ID", class="form-control") }}
             <button type="submit" class="btn btn-success" value="go">Search</button>
@@ -24,35 +24,34 @@
     </div>
 
 
-     {% if output  %}
+    {% if output  %}<!--if start-->
     <div class="container">
-      {% if output.answer is none and output.reviews is none  %}
+      {% if output.answer is none and output.reviews is none  %}<!--if start-->
             <h2>Product ID - <strong>{{ query.ASIN_ID }}</strong> Doesn't exist!</h2>
-
         {% else %}
-
-            {% if output.answer_sentiments is not none and output.qaRelScore is not none %}
-            <h2>Q &amp; A</h2>
-            <h3>Question - {{ query.Search }}</h3>
-            <p><strong>Anwser -</strong> {{ output.answer }}
-                <strong>Sentiment - {% if  "positive" in output.answer_sentiments %}
-                       <span id="pos">{{ output.answer_sentiments }}</span>
-                    {% elif  "negative" in output.answer_sentiments %}
-                        <span id="neg">{{ output.answer_sentiments }}</span>
-                        {% endif %}
-                </strong> <strong>Relevance Score - {{ output.qaRelScore }}</strong> </p>
+            {% if output.answer_sentiments is not none and output.qaRelScore is not none %}<!--if start-->
+                <h2>Q &amp; A</h2>
+                <h3>Question - {{ query.Search }}</h3>
+                <p><strong>Anwser -</strong></span>{{ output.answer }}
+                    <strong>Sentiment - {% if  "positive" in output.answer_sentiments %}
+                           <span id="pos">{{ output.answer_sentiments }}</span>
+                        {% elif  "negative" in output.answer_sentiments %}
+                            <span id="neg">{{ output.answer_sentiments }}</span>
+                            {% endif %}
+                    </strong> <strong>Relevance Score - {{ output.qaRelScore }}</strong> </p>
             {% else %}
                 <h3>No Q &amp; A found</h3>
-            {% endif %}<!--Q&A if else-->
+            {% endif %}<!--Q&A if else--><!--if end-->
 
 
-            {% if output.review_sentiments != none and output.rvRelScore != none %}
+            {% if output.review_sentiments != none and output.rvRelScore != none %}<!--if start-->
               <h3>Top 3 Reviews {{ query.search }} of Product ID - <strong>{{ query.ASIN_ID }}</strong></h3>
-                <div id="accordion" role="tablist" aria-multiselectable="true">
+
+            <div id="accordion" role="tablist" aria-multiselectable="true">
                 {% for review in output.reviews %}
 
                   <div class="card">
-                    <div class="card-header" role="tab" id="headingOne">
+                    <div class="card-header" role="tab" id="heading{{loop.index}}">
                       <h5 class="mb-0">
                         <a data-toggle="collapse" data-parent="#accordion" href="#collapse{{loop.index}}" aria-expanded="true" aria-controls="collapse{{loop.index}}">
                             <h4>Review - {{ loop.index }} <strong>Sentiment - </strong> {% if output.review_sentiments[loop.index0] == "positive" %}
@@ -68,16 +67,19 @@
 
                     <div id="collapse{{loop.index}}" class="collapse show" role="tabpanel" aria-labelledby="heading{{loop.index}}">
                       <div class="card-block">
-                        <p>{{ review }} </p>
+                        <div class="container">
+                            <p>{{ review }} </p>
+                        </div>
+
                       </div>
                     </div>
                   </div>
                   {% endfor %}
                 {% else %}
                     <h3>Sorry! No relevant answer found for your question.</h3>
-                 {% endif %}
+            {% endif %}<!--if end-->
 
-        {% endif %}<!--none check-->
-    {% endif %} <!--output-->
+        {% endif %}<!--none check--><!--if end-->
+    {% endif %} <!--output--><!--if end-->
 
 {% endblock content %}
