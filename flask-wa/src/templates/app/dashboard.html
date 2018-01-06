@@ -1,13 +1,14 @@
 {% extends "base.html" %}
 {% block content %}
-
+     <div class="bg"></div>
+     <div class="container">
+    <div class="jumbotron">
+      <h1><strong>Fractal Hiring Challenge</strong></h1>
+      <p class="lead"><h2>"Amazon Reviews Search Engine" <br>by Team - NLPGiants</h2></p>
+    </div>
+    </div>
     <div class="container">
-        <div class="jumbotron">
-            <h1>Fractal Hiring Challenge</h1>
-
-        </div>
-        <h2>Ask a question about beauty products!</h2>
-
+        <p class="lead"><h2>Ask a question about beauty products!</h2></p>
     <div class="form-group">
         <form method="POST" class="form-inline">
             {{ form.csrf_token }}
@@ -20,6 +21,7 @@
         </form>
     </div>
     </div>
+
 
      {% if output  %}
     <div class="container">
@@ -42,30 +44,30 @@
                 <h3>No Q &amp; A found</h3>
             {% endif %}<!--Q&A if else-->
 
-            {# {% if query %} #}
-            {# {% if output.reviews %} #}
+
             {% if output.review_sentiments != none and output.rvRelScore != none %}
               <h3>Top 3 Reviews -  {{ query.search }} of Product ID - <strong>{{ query.ASIN_ID }}</strong></h3>
                 <div id="accordion" role="tablist" aria-multiselectable="true">
                 {% for review in output.reviews %}
-                {# {% if output.review_sentiments != none and output.rvRelScore != none %} #}
+
                   <div class="card">
                     <div class="card-header" role="tab" id="headingOne">
                       <h5 class="mb-0">
                         <a data-toggle="collapse" data-parent="#accordion" href="#collapse{{loop.index}}" aria-expanded="true" aria-controls="collapse{{loop.index}}">
-                            <h4>Review - {{ loop.index }} </h4>
+                            <h4>Review - {{ loop.index }} <strong>Sentiment - </strong> {% if output.review_sentiments[loop.index0] == "positive" %}
+                            <span id="pos"> {{ output.review_sentiments[loop.index0] }}</span>
+
+                        {% elif output.review_sentiments[loop.index0] == "negative" %}
+                            <span id="neg">{{ output.review_sentiments[loop.index0] }}</span>
+                        {% endif %}
+                            <strong>Relevance Score - </strong> {{ output.rvRelScore[loop.index0] }} </h4>
                         </a>
                       </h5>
                     </div>
 
                     <div id="collapse{{loop.index}}" class="collapse show" role="tabpanel" aria-labelledby="heading{{loop.index}}">
                       <div class="card-block">
-                        <p>{{ review }} <strong>Sentiment - </strong> {% if output.review_sentiments[loop.index0] == "positive" %}
-                            <span id="pos">{{ output.review_sentiments[loop.index0] }}</span>
-                        {% elif output.review_sentiments[loop.index0] == "negative" %}
-                            <span id="neg">{{ output.review_sentiments[loop.index0] }}</span>
-                        {% endif %}
-                            <strong>Relevance Score - </strong> {{ output.rvRelScore[loop.index0] }}</p>
+                        <p>{{ review }} </p>
                       </div>
                     </div>
                   </div>
@@ -74,45 +76,7 @@
                     <h3>Sorry! No relevant answer found for your question.</h3>
                  {% endif %}
 
-
-                {# {% else %} #}
-                <!--<h3>No Reviews Found</h3>-->
-                  {# {% <!--output.reviews-->
-                {# {% endif %}<!--query--> #}
         {% endif %}<!--none check-->
     {% endif %} <!--output-->
-<!--
-            {% if output  %}
 
-            <h4>Product ID - <strong>{{ query.ASIN_ID }}</strong> &amp; Query - <strong>{{ query.Search }}</strong></h4>
-                {% if output.answer %}
-                <h2>Q &amp; A</h2>
-
-                <h4>Question - {{ query.Search }}</h4>
-                <p><strong>Anwser -</strong> {{ output.answer }} <strong>Sentiment - {{ output.answer_sentiments }}</strong> <strong>Relevance Score - {{ output.qaRelScore }}</strong> </p>
-                {% else %}
-
-                <h3>No Q &amp; A found</h3>
-                {% endif %}
-                {% if query %}
-                    {% if output.reviews %}
-                  <h3>Top 5 Reviews -  {{ query.search }} </h3>
-                    <ol>
-                        {% for review in output.reviews %}
-                            <li>
-                                {{ review }} <strong>Sentiment - </strong> {{ output.review_sentiments[loop.index0] }}
-                                <strong>Relevance Score - </strong> {{ output.rvRelScore[loop.index0] }}
-                            </li>
-                        {% endfor %}
-                  </ol>
-                    {% else %}
-                    <h3>No Reviews Found</h3>
-                  {% endif %}
-                {% endif %}
-            {% endif %}
-
-
-
-    </div>
--->
 {% endblock content %}
