@@ -1,12 +1,13 @@
 {% extends "base.html" %}
 {% block content %}
-     <div class="bg"></div>
+
      <div class="container">
-    <div class="jumbotron">
+    <!--div class="jumbotron"></div-->
       <h1><strong>Fractal Hiring Challenge</strong></h1>
       <p class="lead"><h2>"Amazon Reviews Search Engine" <br>by Team - NLPGiants</h2></p>
+      <hr>
     </div>
-    </div>
+
     <div class="container">
         <p class="lead"><h2>Ask a question about beauty products!</h2></p>
     <div class="form-group">
@@ -46,7 +47,7 @@
 
 
             {% if output.review_sentiments != none and output.rvRelScore != none %}
-              <h3>Top 3 Reviews -  {{ query.search }} of Product ID - <strong>{{ query.ASIN_ID }}</strong></h3>
+              <h3>Top 3 Reviews {{ query.search }} of Product ID - <strong>{{ query.ASIN_ID }}</strong></h3>
                 <div id="accordion" role="tablist" aria-multiselectable="true">
                 {% for review in output.reviews %}
 
