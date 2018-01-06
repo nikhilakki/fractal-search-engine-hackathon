@@ -109,7 +109,7 @@ QA_df.to_csv('QA.csv')
 review_df.to_csv('Reviews.csv')
 
 # Creating MongoDB Database, Collections and appending processed CSV files
-port = 32770
+port = 32769
 dbname = 'new'
 filepath1 = 'QA.csv'
 filepath2 = 'Reviews.csv'

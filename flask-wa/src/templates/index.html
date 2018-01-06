@@ -7,6 +7,7 @@
 
         </div>
         <h2>Ask a question about beauty products!</h2>
+      <div class="form-group">
 
         <form method="POST" action="/">
             {{ form.csrf_token }}
@@ -16,9 +17,9 @@
             {{ form.query(size=50,placeholder='Your Question') }}
             {{ form.productId(size=10, placeholder='Product ID') }}
 
-            <button type="submit" value="go">Search</button>
+            <button type="submit" class="btn btn-primary" value="go">Search</button>
         </form>
-
+        </div>
         <p>
             <ol>
                 List of Previous Searches -
@@ -54,7 +55,7 @@
                 {% endif %}
                 {% if query %}
                     {% if output.reviews %}
-                  <h3>Top 5 Reviews -  {{ query.search }} </h3>
+                  <h3>Top 3 Reviews -  {{ query.search }} </h3>
                     <ol>
                         {% for review in output.reviews %}
                             <li>
