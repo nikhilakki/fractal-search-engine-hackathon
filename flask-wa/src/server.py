@@ -23,7 +23,8 @@ app = Flask(__name__) # Flask app init
 
 # Flask app configurations
 app.config['SECRET_KEY'] = "asdjfkn2k4n2k3n4&FASghDV*^(SAD"
-app.config['MONGO_URI'] = "mongodb://localhost:32769/new"
+# app.config['MONGO_URI'] = "mongodb://localhost:32769/new"
+app.config['MONGO_URI'] = "mongodb://localhost:27017/fractal"
 
 mongo = PyMongo(app) # Mongo db object init
 
