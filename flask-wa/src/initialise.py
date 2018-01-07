@@ -109,7 +109,8 @@ QA_df.to_csv('QA.csv')
 review_df.to_csv('Reviews.csv')
 
 # Creating MongoDB Database, Collections and appending processed CSV files
-port = 32769
+port = 32769 # docker for local instance
+# port = 27017 # dockerport for priduction
 dbname = 'new'
 filepath1 = 'QA.csv'
 filepath2 = 'Reviews.csv'
