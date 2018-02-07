@@ -3,7 +3,7 @@
 run the following commands in your terminal 
 
 ```
-$ git clone <repo url> # if doing it for the first time & git pull to update existing repo with BitBucket's repo
+$ git clone <repo url> # if doing it for the first time else just git pull 
 $ cd flask-wa
 $ virtualenv -p python3 .
 $ source bin/activate
